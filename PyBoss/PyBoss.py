@@ -2,19 +2,18 @@
 import os
 import csv
 
-#Path to the csvfiles
+#Path to the csvfile
 csvpath = os.path.join('employee_data.csv')
-outputfilename = 'formatted_employee_data.csv'
 
 #Initializing variables 
-emp_id = []
-first_name = []
-last_name = []
-dob =[]
-ssn = []
-state = []
-name = []
-us_state_abbrev = {
+Emp_Id = []
+First_Name = []
+Last_Name = []
+DOB = []
+SSN = []
+State = []
+Name = []
+US_State = {
     'Alabama': 'AL',
     'Alaska': 'AK',
     'Arizona': 'AZ',
@@ -74,22 +73,25 @@ with open(csvpath, newline='') as csvfile:
     #Read each row of data after the header
     for row in csvreader:
         #Gather emp_id
-        emp_id.append(row[0])
+        Emp_Id.append(row[0])
         #Split name up
-        first_name.append(row[1].split(" ")[0])
-        last_name.append(row[1].split(" ")[1])
+        First_Name.append(row[1].split(" ")[0])
+        Last_Name.append(row[1].split(" ")[1])
         #Format dob
-        dob.append(row[2].split('-')[1] + '/' + row[2].split('-')[2] + '/' + row[2].split('-')[0])
+        DOB.append(row[2].split('-')[1] + '/' + row[2].split('-')[2] + '/' + row[2].split('-')[0])
         #Amend SSN
-        ssn.append("***-**-" + row[3].split("-")[2])
+        SSN.append("***-**-" + row[3].split("-")[2])
         #Abbreviate state
-        state.append(us_state_abbrev[row[4]])
+        State.append(US_State[row[4]])
 
 #Structure new data
-New_List = zip(emp_id, first_name, last_name, dob, ssn, state)
+New_List = zip(Emp_Id, First_Name, Last_Name, DOB, SSN, State)
+
+#Specify the file to write to
+output_path = os.path.join('formatted_employee_data.csv')
 
 #Open the file using "write" mode. Set variable to hold the contents
-with open(outputfilename, 'w', newline='') as f:
+with open(output_path, 'w', newline='') as f:
     #Write data
     csvwriter = csv.writer(f, delimiter=',')
     csvwriter.writerow(['Emp ID','First Name','Last Name','DOB','SSN','State'])
